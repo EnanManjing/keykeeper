@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {background-color: red;}
+
+* {
+  box-sizing: border-box;
+}
+
+#myInput {
+  background-image: url('/css/searchicon.png');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+#myTable {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#myTable th, #myTable td {
+  text-align: left;
+  padding: 1px;
+}
+
+#myTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header, #myTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+button {
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+}
+</style>
+</head>
+<body>
+  <!--a href="/"><button>Back</button></a-->
+  <form action="/backtomain" method="post"><button>Back</button></form>
+
+<h2>DELETE MODE</h2>
+{{ deleted }}
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name" autofocus>
+
+
+  <table id="myTable">
+    <tr class="header">
+      <th style="width:60%;">ACCOUNT</th>
+      <!--th style="width:40%;"></th-->
+    </tr>
+    {% for items in allpass %}
+    <form action="/deleteproc" method="post">
+    <tr>
+      <!--td>{{items[1]}}</td-->
+      <td>
+        <input type="text" name="I_d" value="{{items[0]}}" hidden readonly />
+        <input type="text" name="T_itle" value="{{items[1]}}" hidden readonly />
+        <input type="text" name="U_ser" value="{{items[2]}}" hidden readonly />
+        <input type="text" name="P_assword" value="{{items[3]}}" hidden readonly />
+        <input type="text" name="A_uth" value="{{items[4]}}" hidden readonly />
+        <input type="text" name="W_ebsite" value="{{items[5]}}" hidden readonly />
+        <input type="text" name="N_otes" value="{{items[6]}}" hidden readonly />
+        <button type="submit" id="submitButton">{{items[1]}}</button>
+      </td>
+    </tr>
+  </form>
+    {% endfor %}
+  </table>
+
+
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
+
+</body>
+</html>

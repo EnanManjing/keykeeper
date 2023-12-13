@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFD700;
+            margin: 0;
+            padding: 0;
+            /* display: flex; */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            
+            border-radius: 8px;
+            /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.377); */
+            padding: 20px;  
+            width: auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: large;
+            margin-bottom: 8px;
+            color: #000080;
+        }
+
+        input {
+            padding: 2px;
+            margin-bottom: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .passbutton {
+            padding: 10px;
+            background-color: blue;
+            color: #FFDEAD;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .pbsave {
+            background-color: grey;
+            padding: 10px;
+            color: #FFDEAD;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .notetxtarea {
+            height: 100%;
+        }
+
+        #pbsave.inactive { background-color: grey; }
+        #pbsave.active { background-color: blue; }
+        #pbedit.inactive { background-color: grey; }
+        #pbsave.active { background-color: blue; }
+
+        #email.active { 
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 85%;
+            height: 10%;
+            margin: 5% 5% 50% 5%;
+         }
+
+         #note.active { 
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 85%;
+            height: 10%;
+            margin: 5% 5% 50% 5%;
+         }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+
+            <form action="/backtomain" method="post"><button>Back</button></form>
+
+        <h3>{{onepass[1]}} <a href="https://{{onepass[6]}}">Link</a></h3>
+        
+        <form action="/updateproc" method = "post">
+
+            <!-- label for="website">Id:</label -->
+            <input type="text" name="myid" value="{{onepass[0]}}" hidden readonly required>
+
+            <!-- label for="website">Title:</label -->
+            <input type="text" id="title" name="t_itle" value="{{onepass[1]}}" hidden readonly required>
+
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="u_ser" value="{{onepass[2]}}" readonly required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="p_ass" value="{{onepass[3]}}" readonly required>
+
+            <label for="password">Authenticator:</label>
+            <input type="password" id="auth" name="a_uth" value="{{onepass[4]}}" readonly required>
+
+            <label for="website">Email:</label>
+            <input type="text" id="email" name="e_mail" onclick="emailToggleFunc()" value="{{onepass[5]}}" readonly required>
+            
+            <label for="website">Note:</label>
+            <textarea class = "notetxtarea" id="note" onclick="noteToggleFunc()" placeholder = "Notes..." name="n_otes" readonly>{{onepass[7]}}</textarea>
+
+            <br><button class="passbutton" id="pbshow" onclick="showPassword()" type="button">Show Password</button>
+            <button class="pbsave" id="pbsave" formaction="/updateproc" disabled>Save Password</button>
+            <button class="passbutton" id="pbedit" onclick="editPassword()" type="button">Edit Password</button>
+        </form>
+    </div>
+
+    <script>
+
+        var vartitle = document.getElementById('title');
+        var varusername = document.getElementById('username');
+        var varpassword = document.getElementById('password');
+        var varauth = document.getElementById('auth');
+        var varemail = document.getElementById('email');
+        var varnote = document.getElementById('note');
+
+        var varpbsave = document.getElementById('pbsave');
+        var varpbedit = document.getElementById('pbedit');
+
+        function editPassword() {
+            varpbsave.classList.toggle('active');
+            varpbedit.classList.toggle('inactive'); 
+            varpbsave.disabled = false;
+            varpbedit.disabled = true;
+
+            vartitle.readOnly=false;
+            varusername.readOnly=false;
+            varpassword.readOnly=false;
+            varauth.readOnly=false;
+            varemail.readOnly=false;
+            varnote.readOnly=false;
+
+            vartitle.setSelectionRange(vartitle.value.length, vartitle.value.length);
+            vartitle.focus();
+
+        }
+        
+        function emailToggleFunc() { varemail.classList.toggle('active'); }
+        function noteToggleFunc() { varnote.classList.toggle('active'); }
+
+        function savePassword() {
+            // This is where you would send the data to the server for storage
+            //alert("Password saved!");
+            varpbsave.classList.toggle('active');
+            varpbedit.classList.toggle('inactive');
+            varpbedit.disabled=false;
+            varpbsave.disabled=true;
+        }
+
+        function showPassword(){
+            if (varpassword.type === 'password'){
+                varpassword.type = 'text';
+                varauth.type = 'text';
+            }else{
+                varpassword.type = 'password';
+                varauth.type = 'password';
+            }
+        }
+
+//        document.getElementById('pbedit').addEventListener('click', editPassword);
+    </script>
+</body>
+</html>

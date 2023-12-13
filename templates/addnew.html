@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+/* ---------- login -------- */
+
+/* Full-width input fields */
+
+.notetxtarea{
+	
+	width: 100%;
+    padding: 12px 20px;
+    margin: 2px 0;
+    display: inline-block;
+    border: 2px solid #547c72;
+    box-sizing: border-box;
+    background-color:#d9f1fc;
+    height: 100%;
+	
+	}
+
+#login-input-email.active {
+  position: absolute;
+  top: 0;
+  width: auto;
+  margin: 5% 0 50% 10%;
+}
+
+#login-input-url.active {
+  position: absolute;
+  top: 0;
+  width: auto;
+  margin: 5% 0 50% 10%;
+}
+
+#notetxtarea.active {
+  position: absolute;
+  top: 0;
+  width: auto;
+  margin: 5% 0 50% 10%;
+}
+
+input[type=text], input[type=password] {
+    width: auto%;
+    padding: 12px 20px;
+    margin: 2px 0;
+    display: inline-block;
+    border: 2px solid #547c72;
+    box-sizing: border-box;
+    background-color:#d9f1fc;
+    height: 50%;
+  
+}
+
+
+.login-container {
+    padding: 5px;
+    color: white;
+    height: 100%;
+}
+
+
+
+/* The Modal (background) */
+.login-modal {
+    
+    /*position: fixed; /* Stay in place */
+    /*z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: auto; /* Full width */
+    height: auto; /* Full height */
+    overflow: 500px; /*Enable scroll if needed */
+    /*background-color: rgb(0,0,0); /* Fallback color */
+    /*background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    /* padding-top: 60px; */
+    
+    
+}
+
+/* Modal Content/Box */
+.login-modal-content {
+    background-color: black; /*#2c7493;*/
+    /* border: 5px solid #8aaaa2; */
+    width: auto; /* Could be more or less, depending on screen size */
+	height:100%;
+	background-image: url('static/reaper.jpg');
+}
+
+
+
+@keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+}
+
+.note{
+
+color: #f7c8cb;
+
+}
+
+/* Change styles for span and cancel button on extra small screens */
+
+/* toggle switch */
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 23px;
+  width: 23px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* toggle sitch */
+
+.showok { display: none; }
+
+</style>
+</head>
+<body>
+
+<div id="id01" class="login-modal">
+  
+  <form class="login-modal-content animate" action="http://{{myipaddress}}/loginconfirm" method = "post">
+
+    <div class="login-container">
+        <label for="uname"><b>ADD PASSWORD</b></label>
+      <br><input class = "login-input-title" placeholder = "Title..." type="text" name="t_itle" autofocus autocomplete="off" >
+      <br><input class = "login-input-username" placeholder = "Username..." type="text" name="u_ser" autocomplete="off" >
+      <br><input class = "login-input-password" onkeyup = "check();" id = "mypass" placeholder = "PASSWORD" type="password" name="p_ass" autocomplete="off" >
+      <label class="switch">
+		<input onclick="mypassshowFunction()" type="checkbox">
+		<span class="slider round"></span>
+	  </label>
+	  <br><input class = "login-input-password-repeat" onkeyup = "check();" id = "re_mypass" placeholder = "REPEAT PASSWORD" type="password" name="p_ass" autocomplete="off" >
+    <br><span id='message'></span>
+      
+      <br><input class = "login-input-authenticator" id = "myauth" placeholder = "Authenticator..." type="password" name="a_uth" autocomplete="off" >
+      <label class="switch">
+		<input onclick="myauthshowFunction()" type="checkbox">
+		<span class="slider round"></span>
+	  </label>
+      <br><input class = "login-input-email" id="login-input-email" onclick="qualityToggleFunc()" placeholder = "Email..." type="text" name="e_mail" autocomplete="off" >
+      <br><input class="login-input-url" id="login-input-url" placeholder = "Url..." onclick="urlToggleFunc()" type="text" name="u_rl" autocomplete="off" >
+      <br><textarea class = "notetxtarea" id="notetxtarea" onclick="noteToggleFunc()" placeholder = "Notes..." name="n_otes" autocomplete="off" ></textarea>
+      
+      <br>
+      <button style = "margin-top: 2%; font-size: 20px" id="usaveid" formaction="/addnewproc" disabled>SAVE</button>
+      <button style = "margin-top: 2%; font-size: 20px" id="ucancelid" formaction="/backtomain">CANCEL</button>
+
+     </div>
+   </form>
+  
+</div>
+
+<!--button id="myBtnlogout" accesskey="o" onclick = "windowClose();" hidden>close</button-->
+
+<script>
+
+var emailtoggle = document.getElementById('login-input-email');
+var urltoggle = document.getElementById('login-input-url');
+var notetoggle = document.getElementById('notetxtarea');
+
+function qualityToggleFunc() { emailtoggle.classList.toggle('active'); }
+function urlToggleFunc() { urltoggle.classList.toggle('active'); }
+function noteToggleFunc(){ notetoggle.classList.toggle('active'); }
+
+var check = function() {
+  if (document.getElementById('mypass').value ==
+    document.getElementById('re_mypass').value) {
+    document.getElementById('message').style.color = 'green';
+    document.getElementById('message').innerHTML = 'matching';
+    document.getElementById("usaveid").disabled = false;
+  } else {
+    document.getElementById('message').style.color = 'red';
+    document.getElementById('message').innerHTML = 'not matching';
+    document.getElementById("usaveid").disabled = true;
+  }
+}
+
+function myauthshowFunction() {
+  var x = document.getElementById("myauth");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+    document.getElementById("myText").disabled = true;
+  }
+}	
+	
+function mypassshowFunction() {
+  var x = document.getElementById("mypass");
+  var x = document.getElementById("mypass");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}	
+	
+// Get the modal
+var modal = document.getElementById('id01');
+
+// When the user clicks anywhere outside of the modal, close it
+//window.onclick = function(event) {
+  //  if (event.target == modal) {
+    //    modal.style.display = "none";
+    //}
+//}
+
+//exit
+
+function windowClose() {
+
+window.close();
+
+}
+
+// altback disable
+
+window.location.hash="no-back-button";
+window.location.hash="Again-No-back-button";//again because google chrome don't insert first hash into history
+window.onhashchange=function(){window.location.hash="no-back-button";}
+
+
+</script>
+
+</body>
+</html>
